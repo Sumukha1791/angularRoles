@@ -1,9 +1,24 @@
-﻿<h1>Hi {{currentUser.firstName}}!</h1>
-<p>You're logged in with Angular 7!!</p>
-<h3>All registered users:</h3>
-<ul>
-    <li *ngFor="let user of users">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-    </li>
-</ul>
+﻿<h3>All registered users:</h3>
+<form [formGroup]="rolesForm" (ngSubmit)="onSubmit()">
+<table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Admin</th>
+        <th scope="col">Project Manager</th>
+        <th scope="col">Client</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" formControlName="{{user.username}}">
+          <td>{{user.username}}</td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_ADMIN" value="{{user.username+'|ROLE_ADMIN'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_ADMIN') > -1"></td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_PROJECTMANAGER" value="{{user.username+'|ROLE_PROJECTMANAGER'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_PROJECTMANAGER') > -1"></td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_CLIENT" value="{{user.username+'|ROLE_CLIENT'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_CLIENT') > -1"></td>
+      </tr>
+    </tbody>
+</table>
+<button [disabled]="!isAdmin" class="btn btn-primary">Submit</button>
+</form>
+
+    
