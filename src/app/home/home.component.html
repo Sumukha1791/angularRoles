@@ -1,5 +1,5 @@
-﻿<h3>All registered users:</h3>
-<form [formGroup]="rolesForm" (ngSubmit)="onSubmit()">
+﻿<!--<h3>All registered users:</h3>
+<form #roleForm="ngForm" (ngSubmit)="onSubmit(roleForm.form)">
 <table class="table">
     <thead class="thead-light">
       <tr>
@@ -10,15 +10,44 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users" formControlName="{{user.username}}">
-          <td>{{user.username}}</td>
-          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_ADMIN" value="{{user.username+'|ROLE_ADMIN'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_ADMIN') > -1"></td>
-          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_PROJECTMANAGER" value="{{user.username+'|ROLE_PROJECTMANAGER'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_PROJECTMANAGER') > -1"></td>
-          <td class="center"><input type="checkbox" class="form-check-input" formControlName="ROLE_CLIENT" value="{{user.username+'|ROLE_CLIENT'}}" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_CLIENT') > -1"></td>
-      </tr>
+      <tr *ngFor="let user of users">
+        <td>{{user.username}}</td>
+        <td class="center"><input type="checkbox" class="form-check-input" [(ngModel)]="user.roles.ROLE_ADMIN" [ngModelOptions]="{standalone: true}"></td>
+        <td class="center"><input type="checkbox" class="form-check-input" name="ROLE_PROJECTMANAGER" [value]="user.username+'|ROLE_PROJECTMANAGER'" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_PROJECTMANAGER') > -1"></td>
+        <td class="center"><input type="checkbox" class="form-check-input" name="ROLE_CLIENT" [value]="user.username+'|ROLE_CLIENT'" [disabled]="!isAdmin" [checked]="user.roles.indexOf('ROLE_CLIENT') > -1"></td>
+    </tr>
     </tbody>
 </table>
 <button [disabled]="!isAdmin" class="btn btn-primary">Submit</button>
+</form>-->
+
+<h3>All registered users:</h3>
+<form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <div>
+        <th scope="col">Name</th>
+        <th scope="col">Admin</th>
+        <th scope="col">Project Manager</th>
+        <th scope="col">Client</th>
+        </div>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr formArrayName="userRoles"
+        *ngFor="let user of roleForm.controls['userRoles'].controls; let i = index">
+        <div [formGroupName]="i">
+          <td><input type="text" formControlName='USER_NAME' disabled style="border: none;border-color: transparent;"></td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName='ROLE_ADMIN'></td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName='ROLE_PROJECTMANAGER'></td>
+          <td class="center"><input type="checkbox" class="form-check-input" formControlName='ROLE_CLIENT'></td>
+        </div>  
+      </tr>
+    </tbody>
+  </table>
+  <button [disabled]="!isAdmin" class="btn btn-primary">Submit</button>
 </form>
 
     
