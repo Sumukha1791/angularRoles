@@ -19,8 +19,8 @@ export class UserService {
         return this.http.post(`${config.apiUrl}/users/signup`, user);
     }
 
-    update(user: User) {
-        return this.http.put(`${config.apiUrl}/users/roles`, user);
+    update(users: User[]) {
+        return this.http.put(`${config.apiUrl}/users/roles`, users);
     }
 
 }
